@@ -1,0 +1,28 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: octopetshop-development
+spec:
+  goTemplate: true
+  goTemplateOptions: ["missingkey=error"]
+  generators:
+  - clusters: {} # Automatically use all clusters defined within ArgoCD
+  template:
+    metadata:
+      name: '{{.name}}-octopetshop-development'
+    spec:
+      project: default
+      source:
+        repoURL: https://github.com/twerthi/OctoPetShop.git
+        targetRevision: HEAD
+        path: k8s/kustomize/deployment/overlays/Development
+      destination:
+        server: '{{.server}}'
+        namespace: development
+      syncPolicy:
+#        automated: 
+#          prune: true
+#          selfHeal: true
+        syncOptions:
+        - Validate=false
+        - CreateNamespace=true

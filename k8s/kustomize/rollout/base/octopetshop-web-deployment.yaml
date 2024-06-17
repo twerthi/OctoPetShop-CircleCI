@@ -1,0 +1,36 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Rollout
+metadata:
+  name: octopetshop-web-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      component: web
+  template:
+    metadata:
+      labels:
+        component: web
+    spec:
+      containers:
+        - name: web
+          image: octopussamples/octopetshop-web
+          #image: octopetshop_octopetshop # use these when building locally
+          #imagePullPolicy: Never
+          ports:
+            - containerPort: 5000
+              name: http-port
+            - containerPort: 5001
+              name: https-port
+          env:
+            - name: ProductServiceBaseUrl
+              value: http://octopetshop-productservice-cluster-ip-service:5011/
+            - name: ShoppingCartServiceBaseUrl
+              value: http://octopetshop-shoppingcart-cluster-ip-service:5012
+  strategy:
+    canary:
+      steps:
+      - setWeight: 20
+      - pause: {duration: 10s}
+      - setWeight: 60
+      - pause: {duration: 10s}              

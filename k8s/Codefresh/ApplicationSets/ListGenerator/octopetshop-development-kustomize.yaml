@@ -1,0 +1,31 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: octopetshop-development
+spec:
+  generators:
+  - list:
+       elements:
+       - cluster: in-cluster
+         url: https://kubernetes.default.svc 
+       - cluster: k3s
+         url: https://k3s1:6443
+  template:
+    metadata:
+      name: '{{cluster}}-octopetshop-development'
+    spec:
+      project: default
+      source:
+        repoURL: https://github.com/twerthi/OctoPetShop.git
+        targetRevision: HEAD
+        path: k8s/kustomize/deployment/overlays/Development
+      destination:
+        server: '{{url}}'
+        namespace: development
+      syncPolicy:
+        automated: 
+          prune: true
+          selfHeal: true
+        syncOptions:
+        - Validate=false
+        - CreateNamespace=true
