@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: octopetshop-shoppingcartservice-deployment
+  annotations:
+    circleci.com/project-id: b24a7b40-755c-4dfa-b3f0-d92ef96dda83
+  labels:
+    circleci.com/component-name: octopetshop-shoppingcartservice
+    circleci.com/version: 1.0.0  
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      component: shoppingcart
+  template:
+    metadata:
+      labels:
+        component: shoppingcart
+    spec:
+      template:
+        metadata:
+          labels:
+            circleci.com/component-name: octopetshop-shoppingcartservice
+            circleci.com/version: 1.0.0
+      containers:
+        - name: shoppingcart
+          #image: octopetshop_shoppingcartservice
+          #imagePullPolicy: Never
+          image: octopussamples/octopetshop-shoppingcartservice
+          env:
+            - name: OPSConnectionString
+              valueFrom:
+                secretKeyRef:
+                  name: database-credentials
+                  key: connectionstring

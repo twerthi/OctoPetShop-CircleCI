@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: octopetshop-web-deployment
+  annotations:
+    circleci.com/project-id: b24a7b40-755c-4dfa-b3f0-d92ef96dda83
+  labels:
+    circleci.com/component-name: octopetshop-web
+    circleci.com/version: 1.0.0  
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      component: web
+  template:
+    metadata:
+      labels:
+        component: web
+    spec:
+      template:
+        metadata:
+          labels:
+            circleci.com/component-name: octopetshop-web
+            circleci.com/version: 1.0.0
+      containers:
+        - name: web
+          image: octopussamples/octopetshop-web
+          #image: octopetshop_octopetshop # use these when building locally
+          #imagePullPolicy: Never
+          ports:
+            - containerPort: 5000
+              name: http-port
+            - containerPort: 5001
+              name: https-port
+          env:
+            - name: ProductServiceBaseUrl
+              value: http://octopetshop-productservice-cluster-ip-service:5011/
+            - name: ShoppingCartServiceBaseUrl
+              value: http://octopetshop-shoppingcart-cluster-ip-service:5012

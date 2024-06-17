@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: octopetshop-productservice-deployment
+  annotations:
+    circleci.com/project-id: b24a7b40-755c-4dfa-b3f0-d92ef96dda83
+  labels:
+    circleci.com/component-name: octopetshop-productservice
+    circleci.com/version: 1.0.0
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      component: productservice
+  template:
+    metadata:
+      labels:
+        component: productservice
+    spec:
+      template:
+        metadata:
+          labels:
+            circleci.com/component-name: octopetshop-productservice
+            circleci.com/version: 1.0.0
+      containers:
+        - name: productservice
+          image: octopussamples/octopetshop-productservice
+          #image: octopetshop_productservice
+          #imagePullPolicy: Never
+          env:
+            - name: OPSConnectionString
+              valueFrom:
+                secretKeyRef:
+                  name: database-credentials
+                  key: connectionstring
