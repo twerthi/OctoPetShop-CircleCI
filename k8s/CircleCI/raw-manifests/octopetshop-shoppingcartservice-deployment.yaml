@@ -16,12 +16,9 @@ spec:
     metadata:
       labels:
         component: shoppingcart
+        circleci.com/component-name: octopetshop-shoppingcartservice
+        circleci.com/version: 1.0.0
     spec:
-      template:
-        metadata:
-          labels:
-            circleci.com/component-name: octopetshop-shoppingcartservice
-            circleci.com/version: 1.0.0
       containers:
         - name: shoppingcart
           #image: octopetshop_shoppingcartservice

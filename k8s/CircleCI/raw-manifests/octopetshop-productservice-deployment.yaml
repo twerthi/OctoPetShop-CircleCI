@@ -16,12 +16,10 @@ spec:
     metadata:
       labels:
         component: productservice
+        circleci.com/component-name: octopetshop-productservice
+        circleci.com/version: 1.0.0
+
     spec:
-      template:
-        metadata:
-          labels:
-            circleci.com/component-name: octopetshop-productservice
-            circleci.com/version: 1.0.0
       containers:
         - name: productservice
           image: octopussamples/octopetshop-productservice

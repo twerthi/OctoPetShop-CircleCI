@@ -16,12 +16,9 @@ spec:
     metadata:
       labels:
         component: web
+        circleci.com/component-name: octopetshop-web
+        circleci.com/version: 1.0.0
     spec:
-      template:
-        metadata:
-          labels:
-            circleci.com/component-name: octopetshop-web
-            circleci.com/version: 1.0.0
       containers:
         - name: web
           image: octopussamples/octopetshop-web
