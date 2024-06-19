@@ -6,7 +6,7 @@ metadata:
     circleci.com/project-id: b24a7b40-755c-4dfa-b3f0-d92ef96dda83
   labels:
     circleci.com/component-name: octopetshop-shoppingcartservice
-    circleci.com/version: 1.0.0  
+    circleci.com/version: 1.0.1  
 spec:
   replicas: 1
   selector:
