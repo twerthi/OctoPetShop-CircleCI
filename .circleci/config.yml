@@ -32,5 +32,5 @@ workflows:
       - hold:
           type: approval
           requires:
-            - build
+            - say-hello
             - request-approval
